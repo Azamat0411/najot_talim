@@ -7,8 +7,8 @@ import 'package:najot_talim/entities/card_model.dart';
 import 'package:najot_talim/entities/hive_db.dart';
 
 import '../core/constant/const.dart';
-import '../presentation/screen/card/guid_gen.dart';
-import '../presentation/screen/card/widget.dart';
+import '../presentation/screen/home/card/guid_gen.dart';
+import '../presentation/screen/home/card/widget.dart';
 import 'api_client_impl.dart';
 
 class ApiClient extends ApiClientImpl {
@@ -52,7 +52,6 @@ class ApiClient extends ApiClientImpl {
   }
 
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  Map<String, dynamic> _deviceData = <String, dynamic>{};
 
  static Future<Map<String, dynamic>> initPlatformState() async {
     var deviceData = <String, dynamic>{};

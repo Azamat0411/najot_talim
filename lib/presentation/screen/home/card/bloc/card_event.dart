@@ -1,12 +1,7 @@
 part of 'card_bloc.dart';
 
-@immutable
-abstract class CardEvent extends Equatable {
-  CardEvent();
-
-  @override
-  List<Object> get props => [];
-}
+abstract class CardEvent {
+  CardEvent();}
 
 class AddCard extends CardEvent {
   final CardModel cardModel;
@@ -14,9 +9,6 @@ class AddCard extends CardEvent {
   AddCard({
     required this.cardModel,
   });
-
-  @override
-  List<Object> get props => [cardModel];
 }
 
 class UpdateTask extends CardEvent {
