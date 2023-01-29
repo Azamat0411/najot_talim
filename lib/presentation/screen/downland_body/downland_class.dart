@@ -5,6 +5,7 @@ class FileInfo {
   FileInfo({required this.fileName, required this.fileUrl});
 }
 
+
 List<FileInfo> filesData = [
   FileInfo(
     fileName: "PythonBook",
