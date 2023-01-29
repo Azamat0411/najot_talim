@@ -3,17 +3,16 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-import 'downland_class.dart';
+import 'download_class.dart';
 
-
-class DownlandFile extends StatefulWidget {
-  const DownlandFile({Key? key}) : super(key: key);
+class DownloadFile extends StatefulWidget {
+  const DownloadFile({Key? key}) : super(key: key);
 
   @override
-  State<DownlandFile> createState() => _DownlandFileState();
+  State<DownloadFile> createState() => _DownloadFileState();
 }
 
-class _DownlandFileState extends State<DownlandFile> {
+class _DownloadFileState extends State<DownloadFile> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
