@@ -8,6 +8,7 @@ import 'package:najot_talim/presentation/screen/home/country/country_page.dart';
 import 'package:najot_talim/presentation/screen/home/download/download_file.dart';
 import 'package:provider/provider.dart';
 
+import '../card/card_screen.dart';
 import 'bloc/events.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -48,7 +49,8 @@ class HomeScreen extends StatelessWidget {
       currentIndex: state.currentPage,
       items: const [
         BottomNavigationBarItem(label: 'API', icon: Icon(Icons.dataset)),
-        BottomNavigationBarItem(label: 'FILE DOWNLOAD', icon: Icon(Icons.file_download)),
+        BottomNavigationBarItem(
+            label: 'FILE DOWNLOAD', icon: Icon(Icons.file_download)),
         BottomNavigationBarItem(label: 'FIREBASE', icon: Icon(Icons.dataset)),
       ],
     );
@@ -60,11 +62,8 @@ class HomeScreen extends StatelessWidget {
 
   List get _title => ['API call and caching', 'File download', 'Card'];
 
-  List get _currentPage => [
-        const CountryPage(),
-        const DownloadFile(),
-    CardScreen()
-      ];
+  List get _currentPage =>
+      [const CountryPage(), const DownloadFile(), const CardScreen()];
 
   _onTap(BuildContext blocContext, int index) {
     Provider.of<HomeBloc>(blocContext, listen: false)
