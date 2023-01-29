@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "295994309170",
+    "project_id": "najottalim-25e1a",
+    "storage_bucket": "najottalim-25e1a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:295994309170:android:0460d1f987511c79bb9a2b",
+        "android_client_info": {
+          "package_name": "com.example.najot_talim"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "295994309170-0ss1jineu9cpj82n1q5jmjqlk07gq4ns.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxj4c0RZBD_NDC0NTvBGml_F-v0eCpbhM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "295994309170-0ss1jineu9cpj82n1q5jmjqlk07gq4ns.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -63,11 +63,7 @@ class HomeScreen extends StatelessWidget {
   List get _currentPage => [
         const CountryPage(),
         const DownloadFile(),
-        Container(
-          width: 50,
-          height: 50,
-          color: Colors.blue,
-        ),
+    CardScreen()
       ];
 
   _onTap(BuildContext blocContext, int index) {

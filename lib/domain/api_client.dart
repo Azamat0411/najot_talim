@@ -12,7 +12,6 @@ class ApiClient extends ApiClientImpl {
   Future<bool?> getCountries() async {
     final result = await _rest.request(
         baseUrl: 'https://najot-exam.free.mockoapp.net/countries', path: "");
-
     if (result == null) {
       return false;
     }
