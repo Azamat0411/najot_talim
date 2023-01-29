@@ -18,6 +18,7 @@ Widget customCardTextField({
   // required Function filedFocus,
   onTap,
   maskFormatter,
+  enable,
   onChanged,
 }) {
   return TextFormField(
@@ -31,7 +32,7 @@ Widget customCardTextField({
     onFieldSubmitted: (term) {
       // filedFocus(currentFocus, nextFocus);
     },
-
+enabled: enable,
     maxLines: maxLines,
     textInputAction: inputAction,
     decoration: InputDecoration(
@@ -70,6 +71,7 @@ Widget customLabelTextField({
   errorText,
   // nextFocus,
   maxLines = 1,
+  enabled,
   // required Function filedFocus,
   onTap,
   onChanged,
@@ -84,7 +86,7 @@ Widget customLabelTextField({
     onFieldSubmitted: (term) {
       // filedFocus(currentFocus, nextFocus);
     },
-
+enabled: enabled,
     maxLines: maxLines,
     textInputAction: inputAction,
     decoration: InputDecoration(
@@ -149,4 +151,55 @@ Map<String, dynamic> readAndroidBuildData(AndroidDeviceInfo build) {
     'displayYDpi': build.displayMetrics.yDpi,
   };
 }
+var linearGradient = [
+  LinearGradient(
+    colors: [Color(0xff374AAA), Color(0xff64B6FF)],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ),
+  LinearGradient(
+    colors: [Colors.cyan, Colors.green],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ),
+  LinearGradient(
+    colors: [Colors.red, Colors.white],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ),
+  LinearGradient(
+    colors: [Colors.purpleAccent, Colors.purple],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ),
+  LinearGradient(
+    colors: [Colors.black, Colors.white],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ), LinearGradient(
+    colors: [Colors.pinkAccent, Colors.pink],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ),
+  LinearGradient(
+    colors: [Colors.cyan, Colors.lightBlue],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ),
+  LinearGradient(
+    colors: [Colors.green, Colors.grey],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ),
+  LinearGradient(
+    colors: [Colors.orangeAccent, Colors.orange],
+    begin: Alignment.centerLeft,
+    end: Alignment.centerRight,
+  ),
+  LinearGradient(
+    colors: [Colors.yellow, Colors.yellowAccent],
+    begin: Alignment.centerLeft,
+    end: Alignment.bottomLeft,
+  ),
+];
 

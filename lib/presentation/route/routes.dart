@@ -13,7 +13,7 @@ class Routes {
         RouteList.splash: (context) => const SplashScreen(),
         RouteList.downland: (context) => const DownloadFile(),
         RouteList.cardAdd: (context) => const CardAddScreen(),
-        RouteList.cardEdit: (context) => const CardEditScreen(),
+        RouteList.cardEdit: (context) =>  CardEditScreen(cardIdAndUserId: setting.arguments as List,),
 
       };
 }
