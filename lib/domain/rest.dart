@@ -7,8 +7,6 @@ import '../presentation/route/route.dart';
 
 enum Method { post, get, put, delete }
 
-const String _baseUrl = 'https://testapp.hrone.uz/api/';
-
 class Rest {
 
   final Dio _dio =
@@ -17,23 +15,25 @@ class Rest {
             responseBody: true, requestBody: true, requestHeader: true));
 
   Future<Response?> request(
-      {required String path,
+      {
+        required String baseUrl,
+        required String path,
       Method? method,
       Map<String, dynamic>? header,
       Map<String, dynamic>? params,
       Object? data}) async {
     method ??= Method.get;
     try {
-      final _result = await _dio.fetch(
+      final result = await _dio.fetch(
           Options(method: method.name, headers: header)
               .compose(_dio.options, path, data: data, queryParameters: params)
-              .copyWith(baseUrl: _baseUrl));
+              .copyWith(baseUrl: baseUrl));
 
       Alice(
-          result: _result,
+          result: result,
           showNotification: true,
           navigatorKey: NavigationService.navigatorKey);
-      return _result;
+      return result;
     } on DioError catch (_) {
       ServerError.withError(error: _);
       if (kDebugMode) {

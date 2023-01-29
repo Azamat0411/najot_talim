@@ -4,6 +4,10 @@ import 'package:flutter/services.dart';
 import 'package:najot_talim/presentation/route/route.dart';
 import 'package:najot_talim/presentation/route/routes.dart';
 import 'package:najot_talim/presentation/route/routes_const.dart';
+import 'package:najot_talim/presentation/screen/internetHelper/connectivity_provider.dart';
+import 'package:provider/provider.dart';
+
+import 'hive_init.dart';
 
 import 'firebase_options.dart';
 
@@ -15,7 +19,12 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
-  runApp(const MyApp());
+
+  await initHive();
+
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (context) => ConnectivityProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
