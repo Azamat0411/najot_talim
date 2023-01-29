@@ -57,7 +57,7 @@ class _CountryPageState extends State<CountryPage> {
               fontSize: 20),
           TextWidget(
               text: country.capital ?? '',
-              textColor: kPrimaryBlackColor,
+              textColor: kPrimaryGrey100Color,
               fontWeight: FontWeight.w400,
               fontSize: 20),
         ],
