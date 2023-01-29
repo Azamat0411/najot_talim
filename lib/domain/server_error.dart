@@ -1,8 +1,8 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:dio/dio.dart' hide Headers;
-import 'package:flash/flash.dart';
 
-import '../core/component/flash_widget.dart';
+import '../core/component/flash/flash.dart';
+import '../core/component/flash/flash_widget.dart';
 import '../core/constant/app_colors.dart';
 
 class ServerError implements Exception {

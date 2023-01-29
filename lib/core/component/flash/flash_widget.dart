@@ -1,8 +1,8 @@
-import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
-import '../../presentation/component/text_widget.dart';
-import '../../presentation/route/route.dart';
-import '../constant/app_colors.dart';
+import '../../../presentation/component/text_widget.dart';
+import '../../../presentation/route/route.dart';
+import '../../constant/app_colors.dart';
+import 'flash.dart';
 
 flash(message, Color color, {FlashPosition? position}) {
   BuildContext? context = NavigationService.navigatorKey.currentContext;
