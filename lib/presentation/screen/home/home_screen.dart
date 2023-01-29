@@ -8,6 +8,7 @@ import 'package:najot_talim/presentation/screen/home/country/country_page.dart';
 import 'package:najot_talim/presentation/screen/home/download/download_file.dart';
 import 'package:provider/provider.dart';
 
+import '../card/card_screen.dart';
 import 'bloc/events.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -19,7 +20,8 @@ class HomeScreen extends StatelessWidget {
         create: (context) => HomeBloc()..add(EventInitial()),
         listener: (context, _) {},
         builder: (blocContext, state) {
-          return state is StateLoadPage?Scaffold(
+          return state is StateLoadPage?
+          Scaffold(
             appBar: AppBar(
               title: TextWidget(
                   text: _title[state.currentPage],
@@ -60,11 +62,7 @@ class HomeScreen extends StatelessWidget {
   List get _currentPage => [
         const CountryPage(),
         const DownloadFile(),
-        Container(
-          width: 50,
-          height: 50,
-          color: Colors.blue,
-        ),
+    CardScreen()
       ];
 
   _onTap(BuildContext blocContext, int index) {

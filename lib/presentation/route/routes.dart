@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:najot_talim/presentation/route/routes_const.dart';
+import 'package:najot_talim/presentation/screen/card/card_add_screen.dart';
+import 'package:najot_talim/presentation/screen/card/card_edit_screen.dart';
 import 'package:najot_talim/presentation/screen/home/download/download_file.dart';
 import 'package:najot_talim/presentation/screen/home/home_screen.dart';
 
@@ -10,6 +12,9 @@ class Routes {
         RouteList.home: (context) => const HomeScreen(),
         RouteList.splash: (context) => const SplashScreen(),
         RouteList.downland: (context) => const DownloadFile(),
+        RouteList.cardAdd: (context) => const CardAddScreen(),
+        RouteList.cardEdit: (context) => const CardEditScreen(),
+
       };
 }
 

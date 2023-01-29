@@ -32,7 +32,7 @@ class _CardAddScreenState extends State<CardAddScreen> {
   static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
   Map<String, dynamic> _deviceData = <String, dynamic>{};
 
-  Future<void> initPlatformState() async {
+  Future<Map<String, dynamic>> initPlatformState() async {
     var deviceData = <String, dynamic>{};
 
     try {
@@ -41,12 +41,11 @@ class _CardAddScreenState extends State<CardAddScreen> {
     } on PlatformException {
       deviceData = <String, dynamic>{'Error:': 'Failed to get platform version.'};
     }
-
-    if (!mounted) return;
-
     setState(() {
       _deviceData = deviceData;
     });
+
+    return deviceData;
   }
 
   @override
@@ -142,9 +141,7 @@ class _CardAddScreenState extends State<CardAddScreen> {
                 controller: cardExpired,
                 maskFormatter: maskFormatterExpired,
                 onChanged: (value) {
-                  setState(() {
-
-                  });
+                  setState(() {});
                   if (value != "" && int.parse(value.toString().substring(0, 1)) < 2 && int.parse(value.toString().substring(0, 1)) >= 0) {
                     print('_CardAddScreenState.build aasa ${value.toString().substring(0, 1)}');
                   }
@@ -156,32 +153,29 @@ class _CardAddScreenState extends State<CardAddScreen> {
             Text("Karta nomi"),
             SizedBox(height: 10),
             customLabelTextField(
-              controller: cardName,
+                controller: cardName,
                 onChanged: (v) {
                   setState(() {});
                 }),
-
             SizedBox(height: 10),
             Text("Karta egasi "),
             SizedBox(height: 10),
             customLabelTextField(
-              controller: cardOwner,
+                controller: cardOwner,
                 onChanged: (v) {
                   setState(() {});
-                }
-            ),
+                }),
             SizedBox(height: 10),
             Text("Karta turi"),
             SizedBox(height: 10),
             customLabelTextField(
-              controller: cardType,
+                controller: cardType,
                 onChanged: (v) {
                   setState(() {});
-                }
-            ),
+                }),
             SizedBox(height: 100),
             TextButton(
-                style: TextButton.styleFrom(maximumSize: Size(double.infinity, 40), minimumSize: Size(double.infinity, 40),backgroundColor: Colors.black),
+                style: TextButton.styleFrom(maximumSize: Size(double.infinity, 40), minimumSize: Size(double.infinity, 40), backgroundColor: Colors.black),
                 onPressed: () async {
                   var cardId = GUIDGen.generate();
                   var token = GUIDGen.generate();
@@ -193,7 +187,14 @@ class _CardAddScreenState extends State<CardAddScreen> {
                     "cardName": cardName.text,
                     "expireDate": cardExpired.text,
                     "owner": cardOwner.text,
+                    "cardType": cardType.text,
                     "userId": token,
+                  }).then((value) {
+
+                    Navigator.pop(context);
+                    setState(() {
+
+                    });
                   });
                 },
                 child: Text("Saqlash"))
@@ -204,14 +205,4 @@ class _CardAddScreenState extends State<CardAddScreen> {
   }
 }
 
-CardModel(
-  cardId,
-  gradient,
-  cardNumber,
-  cardName,
-  // moneyAmount,
-  owner,
-  expireDate,
-  iconImage,
-  userId,
-) {}
+
