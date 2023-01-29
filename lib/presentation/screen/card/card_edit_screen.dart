@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:najot_talim/entities/card_model.dart';
 import 'package:najot_talim/presentation/screen/card/widget.dart';
 
 import '../../../firebase_repostory.dart';
@@ -99,7 +100,9 @@ int gradient=0;
           onPressed: () async {
             await FireStoreRepository.getItem(_deviceData["id"], widget.cardIdAndUserId[0]).then((value) {
               setState(() {
-                print('_CardEditScreenState.build $value');
+                CardModel model=CardModel(cardExpired: '');
+                model.toJson();
+                _linearGradient=linearGradient[value['gradient']];
                 cardNumber.text = value['cardNumber'];
                 cardExpired.text = value['cardExpired'];
                 cardType.text = value["cardType"];

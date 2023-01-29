@@ -3,7 +3,10 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:najot_talim/entities/card_model.dart';
+import 'package:najot_talim/presentation/screen/card/bloc/card_bloc.dart';
 import 'package:najot_talim/presentation/screen/card/widget.dart';
 
 import 'guid_gen.dart';
@@ -34,10 +37,8 @@ class _CardAddScreenState extends State<CardAddScreen> {
 
   Future<Map<String, dynamic>> initPlatformState() async {
     var deviceData = <String, dynamic>{};
-
     try {
       deviceData = readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      print('_CardAddScreenState.initPlatformState ${deviceData["id"]}');
     } on PlatformException {
       deviceData = <String, dynamic>{'Error:': 'Failed to get platform version.'};
     }
@@ -67,7 +68,7 @@ class _CardAddScreenState extends State<CardAddScreen> {
           children: [
             Container(
                 margin: const EdgeInsets.only(right: 20, left: 20),
-                padding: EdgeInsets.only(right: 30, left: 30),
+                padding:const EdgeInsets.only(right: 30, left: 30),
                 height: 200,
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -77,28 +78,28 @@ class _CardAddScreenState extends State<CardAddScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 30),
+                    const   SizedBox(height: 30),
                     Row(
                       children: [
                         Text(cardName.text),
-                        Spacer(),
+                        const    Spacer(),
                         Text(cardType.text),
                       ],
                     ),
                     const SizedBox(height: 50),
-                    Text(cardNumber.text, style: TextStyle(fontSize: 16, color: Color(0xFF12121D))),
+                    Text(cardNumber.text, style:const TextStyle(fontSize: 16, color: Color(0xFF12121D))),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Text("Karta egasi", style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3))), Text(cardOwner.text)],
+                          children: [const Text("Karta egasi", style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3))), Text(cardOwner.text)],
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const           Text(
                               "Amal qilish muddati",
                               style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3)),
                             ),
@@ -124,8 +125,8 @@ class _CardAddScreenState extends State<CardAddScreen> {
                 ],
               ),
             ),
-            Text("Karta raqam"),
-            SizedBox(height: 10),
+            const  Text("Karta raqam"),
+            const   SizedBox(height: 10),
             customCardTextField(
               enable: true,
                 maskFormatter: maskFormatter,
@@ -134,9 +135,9 @@ class _CardAddScreenState extends State<CardAddScreen> {
                 onChanged: (v) {
                   setState(() {});
                 }),
-            SizedBox(height: 10),
-            Text("Karta mudati"),
-            SizedBox(height: 10),
+            const SizedBox(height: 10),
+            const Text("Karta mudati"),
+            const SizedBox(height: 10),
             customCardTextField(
                 enable: true,
                 keyboardType: TextInputType.number,
@@ -180,7 +181,9 @@ class _CardAddScreenState extends State<CardAddScreen> {
                 style: TextButton.styleFrom(maximumSize: Size(double.infinity, 40), minimumSize: Size(double.infinity, 40), backgroundColor: Colors.black),
                 onPressed: () async {
                   var cardId = GUIDGen.generate();
-                  var token = GUIDGen.generate();
+                  var userId = GUIDGen.generate();
+                  CardModel cardModel=CardModel(userId: userId,);
+                  context.read<CardBloc>().add(AddCard(cardModel:cardModel));
                   final _fireStore = FirebaseFirestore.instance.collection(_deviceData["id"]);
                   await _fireStore.doc(cardId).set({
                     "cardId": cardId,
@@ -190,13 +193,9 @@ class _CardAddScreenState extends State<CardAddScreen> {
                     "cardExpired": cardExpired.text,
                     "cardOwner": cardOwner.text,
                     "cardType": cardType.text,
-                    "userId": token,
+                    "userId": userId,
                   }).then((value) {
-
                     Navigator.pop(context);
-                    setState(() {
-
-                    });
                   });
                 },
                 child: Text("Saqlash"))
