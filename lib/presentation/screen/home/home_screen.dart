@@ -5,6 +5,7 @@ import 'package:najot_talim/presentation/component/text_widget.dart';
 import 'package:najot_talim/presentation/screen/home/bloc/bloc.dart';
 import 'package:najot_talim/presentation/screen/home/bloc/states.dart';
 import 'package:najot_talim/presentation/screen/home/country/country_page.dart';
+import 'package:najot_talim/presentation/screen/home/download/download_file.dart';
 import 'package:provider/provider.dart';
 
 import 'bloc/events.dart';
@@ -58,11 +59,7 @@ class HomeScreen extends StatelessWidget {
 
   List get _currentPage => [
         const CountryPage(),
-        Container(
-          width: 50,
-          height: 50,
-          color: Colors.red,
-        ),
+        const DownloadFile(),
         Container(
           width: 50,
           height: 50,
