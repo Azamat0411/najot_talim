@@ -64,7 +64,8 @@ class _CardScreenState extends State<CardScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        Navigator.pushNamed(context, RouteList.cardEdit);
+                        // print('_CardScreenState.build ${proList[i]["cardId"]}');
+                        Navigator.pushNamed(context, RouteList.cardEdit,arguments: [proList[i]["cardId"],proList[i]["userId"],_deviceData["id"]]);
                       },
                       child: Container(
                           // margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
@@ -73,7 +74,7 @@ class _CardScreenState extends State<CardScreen> {
                           width: double.infinity,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(16),
-                            color: Colors.teal,
+                            gradient: linearGradient[proList[i]["gradient"]],
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -94,7 +95,7 @@ class _CardScreenState extends State<CardScreen> {
                                 children: [
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [Text("Karta egasi", style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3))), Text(proList[i]["owner"].toString())],
+                                    children: [Text("Karta egasi", style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3))), Text(proList[i]["cardOwner"].toString())],
                                   ),
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -103,7 +104,7 @@ class _CardScreenState extends State<CardScreen> {
                                         "Amal qilish muddati",
                                         style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3)),
                                       ),
-                                      Text(proList[i]['expireDate'].toString())
+                                      Text(proList[i]['cardExpired'].toString())
                                     ],
                                   )
                                 ],

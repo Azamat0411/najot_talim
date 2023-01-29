@@ -127,6 +127,7 @@ class _CardAddScreenState extends State<CardAddScreen> {
             Text("Karta raqam"),
             SizedBox(height: 10),
             customCardTextField(
+              enable: true,
                 maskFormatter: maskFormatter,
                 controller: cardNumber,
                 keyboardType: TextInputType.number,
@@ -137,6 +138,7 @@ class _CardAddScreenState extends State<CardAddScreen> {
             Text("Karta mudati"),
             SizedBox(height: 10),
             customCardTextField(
+                enable: true,
                 keyboardType: TextInputType.number,
                 controller: cardExpired,
                 maskFormatter: maskFormatterExpired,
@@ -185,8 +187,8 @@ class _CardAddScreenState extends State<CardAddScreen> {
                     "gradient": 1,
                     "cardNumber": cardNumber.text.replaceAll(" ", ""),
                     "cardName": cardName.text,
-                    "expireDate": cardExpired.text,
-                    "owner": cardOwner.text,
+                    "cardExpired": cardExpired.text,
+                    "cardOwner": cardOwner.text,
                     "cardType": cardType.text,
                     "userId": token,
                   }).then((value) {

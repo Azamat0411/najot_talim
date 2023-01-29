@@ -11,7 +11,7 @@ class Routes {
         RouteList.home: (context) => const HomeScreen(),
         RouteList.splash: (context) => const SplashScreen(),
         RouteList.cardAdd: (context) => const CardAddScreen(),
-        RouteList.cardEdit: (context) => const CardEditScreen(),
+        RouteList.cardEdit: (context) =>  CardEditScreen(cardIdAndUserId: setting.arguments as List,),
 
       };
 }

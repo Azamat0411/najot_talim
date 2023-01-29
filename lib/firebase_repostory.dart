@@ -14,6 +14,19 @@ class FireStoreRepository {
     } catch (e) {
       throw Exception(e.toString());
     }
+  } static Future getItem(String id,String docs) async {
+    List proList = [];
+    try {
+      final pro = await FirebaseFirestore.instance.collection(id).doc(docs).get();
+      print('FireStoreRepository.get ${pro.data()}');
+      // pro.doc;
+      // pro.docs.forEach((element) {
+      //   return proList.add(element.data());
+      // });
+      return pro.data();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
   }
  // static Future<void> update({Task? task}) async {
  //    try {
@@ -23,14 +36,14 @@ class FireStoreRepository {
  //      throw Exception(e.toString());
  //    }
  //  }
- //  static Future<void> deleteTask({Task? task}) async {
- //    try {
- //      final pro = await FirebaseFirestore.instance.collection(GetStorage().read("email"));
- //   pro.doc(task!.id).delete();
- //    } catch (e) {
- //      throw Exception(e.toString());
- //    }
- //  }
+  static Future<void> deleteTask(String id , String docs) async {
+    try {
+      final pro = await FirebaseFirestore.instance.collection(id);
+   pro.doc(docs).delete();
+    } catch (e) {
+      throw Exception(e.toString());
+    }
+  }
  //  static Future<void> deleteTaskList({List? task}) async {
  //    try {
  //      final pro = await FirebaseFirestore.instance.collection(GetStorage().read("email"));
