@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
-      initialRoute: RouteList.home,
+      initialRoute: RouteList.splash,
       builder: (context, child) {
         return child ?? Container();
       },

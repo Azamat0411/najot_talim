@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:najot_talim/core/constant/app_colors.dart';
 import 'package:najot_talim/presentation/bloc/custom_bloc_consumer.dart';
 import 'package:najot_talim/presentation/component/text_widget.dart';
+import 'package:najot_talim/presentation/screen/downland_body/downland_file.dart';
 import 'package:najot_talim/presentation/screen/home/bloc/bloc.dart';
 import 'package:najot_talim/presentation/screen/home/bloc/states.dart';
 import 'package:najot_talim/presentation/screen/home/country/country_page.dart';
@@ -58,11 +59,7 @@ class HomeScreen extends StatelessWidget {
 
   List get _currentPage => [
         const CountryPage(),
-        Container(
-          width: 50,
-          height: 50,
-          color: Colors.red,
-        ),
+        DownlandFile(),
         Container(
           width: 50,
           height: 50,
