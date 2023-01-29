@@ -5,6 +5,8 @@ import 'package:najot_talim/presentation/screen/home/bloc/bloc.dart';
 import 'package:najot_talim/presentation/screen/home/bloc/states.dart';
 import 'package:provider/provider.dart';
 
+import '../card/card_add_screen.dart';
+import '../card/card_screen.dart';
 import 'bloc/events.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -48,12 +50,7 @@ class HomeScreen extends StatelessWidget {
           height: 50,
           color: Colors.red,
         ),
-        Container(
-          width: 50,
-          height: 50,
-          color: Colors.blue,
-        ),
-      ];
+    CardScreen()      ];
 
   _onTap(BuildContext blocContext, int index) {
     Provider.of<HomeBloc>(blocContext, listen: false)
