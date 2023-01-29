@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:najot_talim/presentation/route/route.dart';
 import 'package:najot_talim/presentation/route/routes.dart';
 import 'package:najot_talim/presentation/route/routes_const.dart';
 
+import 'firebase_options.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await SystemChrome.setPreferredOrientations(
     [DeviceOrientation.portraitUp],
   );
@@ -17,13 +23,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return  MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
-      initialRoute: RouteList.splash,
-      builder: (context, child) {
-        return child ?? Container();
-      },
+      initialRoute: RouteList.home,
       onGenerateRoute: (RouteSettings settings) {
         final routes = Routes.getRoutes(settings);
         final WidgetBuilder builder = routes[settings.name]!;
