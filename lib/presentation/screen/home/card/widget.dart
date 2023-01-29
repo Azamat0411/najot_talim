@@ -1,5 +1,3 @@
-
-
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +7,7 @@ Widget customCardTextField({
   keyboardType,
   prefixText,
   inputAction,
-   FocusNode? currentFocus,
+  FocusNode? currentFocus,
   hintText,
   showError = false,
   errorText,
@@ -22,21 +20,22 @@ Widget customCardTextField({
   onChanged,
 }) {
   return TextFormField(
-    style:TextStyle(),
+    style: const TextStyle(),
     controller: controller,
     focusNode: currentFocus,
     onTap: onTap,
     textCapitalization: TextCapitalization.sentences,
     onChanged: onChanged,
- inputFormatters: [maskFormatter],
+    inputFormatters: [maskFormatter],
     onFieldSubmitted: (term) {
       // filedFocus(currentFocus, nextFocus);
     },
-enabled: enable,
+    enabled: enable,
     maxLines: maxLines,
     textInputAction: inputAction,
     decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+        contentPadding:
+            const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         filled: true,
         // fillColor: Colors.greenAccent,
         hintText: hintText,
@@ -59,13 +58,14 @@ enabled: enable,
     keyboardType: keyboardType,
   );
 }
+
 Widget customLabelTextField({
   labelText,
   required TextEditingController controller,
   keyboardType,
   prefixText,
   inputAction,
-   FocusNode? currentFocus,
+  FocusNode? currentFocus,
   hintText,
   showError = false,
   errorText,
@@ -77,7 +77,7 @@ Widget customLabelTextField({
   onChanged,
 }) {
   return TextFormField(
-    style:TextStyle(),
+    style: TextStyle(),
     controller: controller,
     focusNode: currentFocus,
     onTap: onTap,
@@ -86,7 +86,7 @@ Widget customLabelTextField({
     onFieldSubmitted: (term) {
       // filedFocus(currentFocus, nextFocus);
     },
-enabled: enabled,
+    enabled: enabled,
     maxLines: maxLines,
     textInputAction: inputAction,
     decoration: InputDecoration(
@@ -113,93 +113,62 @@ enabled: enabled,
     keyboardType: keyboardType,
   );
 }
+
 Map<String, dynamic> readAndroidBuildData(AndroidDeviceInfo build) {
   return <String, dynamic>{
-    'version.securityPatch': build.version.securityPatch,
-    'version.sdkInt': build.version.sdkInt,
-    'version.release': build.version.release,
-    'version.previewSdkInt': build.version.previewSdkInt,
-    'version.incremental': build.version.incremental,
-    'version.codename': build.version.codename,
-    'version.baseOS': build.version.baseOS,
-    'board': build.board,
-    'bootloader': build.bootloader,
-    'brand': build.brand,
-    'device': build.device,
-    'display': build.display,
-    'fingerprint': build.fingerprint,
-    'hardware': build.hardware,
-    'host': build.host,
-    'id': build.id,
-    'manufacturer': build.manufacturer,
-    'model': build.model,
-    'product': build.product,
-    'supported32BitAbis': build.supported32BitAbis,
-    'supported64BitAbis': build.supported64BitAbis,
-    'supportedAbis': build.supportedAbis,
-    'tags': build.tags,
-    'type': build.type,
-    'isPhysicalDevice': build.isPhysicalDevice,
-    'systemFeatures': build.systemFeatures,
-    'displaySizeInches':
-    ((build.displayMetrics.sizeInches * 10).roundToDouble() / 10),
-    'displayWidthPixels': build.displayMetrics.widthPx,
-    'displayWidthInches': build.displayMetrics.widthInches,
-    'displayHeightPixels': build.displayMetrics.heightPx,
-    'displayHeightInches': build.displayMetrics.heightInches,
-    'displayXDpi': build.displayMetrics.xDpi,
-    'displayYDpi': build.displayMetrics.yDpi,
+    'id': build.id
   };
 }
+
 var linearGradient = [
-  LinearGradient(
+  const LinearGradient(
     colors: [Color(0xff374AAA), Color(0xff64B6FF)],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ),
-  LinearGradient(
+  const LinearGradient(
     colors: [Colors.cyan, Colors.green],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ),
-  LinearGradient(
+  const LinearGradient(
     colors: [Colors.red, Colors.white],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ),
-  LinearGradient(
+  const LinearGradient(
     colors: [Colors.purpleAccent, Colors.purple],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ),
-  LinearGradient(
+  const LinearGradient(
     colors: [Colors.black, Colors.white],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
-  ), LinearGradient(
+  ),
+  const LinearGradient(
     colors: [Colors.pinkAccent, Colors.pink],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ),
-  LinearGradient(
+  const LinearGradient(
     colors: [Colors.cyan, Colors.lightBlue],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ),
-  LinearGradient(
+  const LinearGradient(
     colors: [Colors.green, Colors.grey],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ),
-  LinearGradient(
+  const LinearGradient(
     colors: [Colors.orangeAccent, Colors.orange],
     begin: Alignment.centerLeft,
     end: Alignment.centerRight,
   ),
-  LinearGradient(
+  const LinearGradient(
     colors: [Colors.yellow, Colors.yellowAccent],
     begin: Alignment.centerLeft,
     end: Alignment.bottomLeft,
   ),
 ];
-

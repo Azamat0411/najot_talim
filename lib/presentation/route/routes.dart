@@ -12,7 +12,7 @@ class Routes {
   static Map<String, WidgetBuilder> getRoutes(RouteSettings setting) => {
         RouteList.home: (context) => const HomeScreen(),
         RouteList.splash: (context) => const SplashScreen(),
-        RouteList.cardAdd: (context) => const CardAddScreen(),
+        RouteList.cardAdd: (context) => CardAddScreen(id: setting.arguments as String),
         RouteList.cardView: (context) =>
             CountryCardView(country: setting.arguments as Countries),
         RouteList.cardEdit: (context) =>

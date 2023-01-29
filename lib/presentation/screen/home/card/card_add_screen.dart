@@ -1,25 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:najot_talim/presentation/screen/home/card/widget.dart';
 
 import 'guid_gen.dart';
 
 class CardAddScreen extends StatefulWidget {
-  const CardAddScreen({Key? key}) : super(key: key);
+  const CardAddScreen({Key? key, required this.id}) : super(key: key);
+
+  final String id;
 
   @override
   State<CardAddScreen> createState() => _CardAddScreenState();
 }
 
 class _CardAddScreenState extends State<CardAddScreen> {
-  TextEditingController cardNumber = TextEditingController();
-  TextEditingController cardExpired = TextEditingController();
-  TextEditingController cardName = TextEditingController();
-  TextEditingController cardOwner = TextEditingController();
-  TextEditingController cardType = TextEditingController();
+  final cardNumber = TextEditingController();
+  final cardExpired = TextEditingController();
+  final cardName = TextEditingController();
+  final cardOwner = TextEditingController();
+  final cardType = TextEditingController();
   final maskFormatter = MaskTextInputFormatter(
     mask: '#### #### #### ####',
     filter: {"#": RegExp(r'[0-9]')},
@@ -28,32 +28,11 @@ class _CardAddScreenState extends State<CardAddScreen> {
     mask: '##/##',
     filter: {"#": RegExp(r'[0-9]')},
   );
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  Map<String, dynamic> _deviceData = <String, dynamic>{};
-
-  Future<Map<String, dynamic>> initPlatformState() async {
-    var deviceData = <String, dynamic>{};
-
-    try {
-      deviceData = readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      print('_CardAddScreenState.initPlatformState ${deviceData["id"]}');
-    } on PlatformException {
-      deviceData = <String, dynamic>{
-        'Error:': 'Failed to get platform version.'
-      };
-    }
-    setState(() {
-      _deviceData = deviceData;
-    });
-
-    return deviceData;
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    initPlatformState();
   }
 
   @override
@@ -196,9 +175,9 @@ class _CardAddScreenState extends State<CardAddScreen> {
                 onPressed: () async {
                   var cardId = GUIDGen.generate();
                   var token = GUIDGen.generate();
-                  final _fireStore =
-                      FirebaseFirestore.instance.collection(_deviceData["id"]);
-                  await _fireStore.doc(cardId).set({
+                  final fireStore =
+                      FirebaseFirestore.instance.collection(widget.id);
+                  await fireStore.doc(cardId).set({
                     "cardId": cardId,
                     "gradient": 1,
                     "cardNumber": cardNumber.text.replaceAll(" ", ""),

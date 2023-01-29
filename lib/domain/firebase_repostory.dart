@@ -1,20 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:najot_talim/entities/card_model.dart';
 
 class FireStoreRepository {
-  // final _fireStore = FirebaseFirestore.instance.collection(GetStorage().read("email"));
- static Future<List> get(String id) async {
-    List proList = [];
+ static Future<List<CardModel>> get(String id) async {
+    List<CardModel> proList = [];
     try {
       final pro = await FirebaseFirestore.instance.collection(id).get();
-      print('FireStoreRepository.get $id');
-      pro.docs.forEach((element) {
-        return proList.add(element.data());
-      });
+      for (var element in pro.docs) {
+        proList.add(CardModel.fromJson(element.data()));
+      }
       return proList;
     } catch (e) {
       throw Exception(e.toString());
     }
-  } static Future getItem(String id,String docs) async {
+  }
+
+  static Future getItem(String id,String docs) async {
     List proList = [];
     try {
       final pro = await FirebaseFirestore.instance.collection(id).doc(docs).get();

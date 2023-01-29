@@ -1,11 +1,14 @@
-import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:najot_talim/presentation/route/route.dart';
-import 'package:najot_talim/presentation/route/routes_const.dart';
+import 'package:najot_talim/core/constant/app_colors.dart';
+import 'package:najot_talim/entities/card_model.dart';
+import 'package:najot_talim/presentation/bloc/custom_bloc_consumer.dart';
+import 'package:najot_talim/presentation/component/loader.dart';
+import 'package:najot_talim/presentation/component/text_widget.dart';
 import 'package:najot_talim/presentation/screen/home/card/widget.dart';
+import 'package:provider/provider.dart';
 
-import '../../../../domain/firebase_repostory.dart';
+import '../../../route/routes_const.dart';
+import 'bloc/card_bloc.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({Key? key}) : super(key: key);
@@ -15,148 +18,160 @@ class CardScreen extends StatefulWidget {
 }
 
 class _CardScreenState extends State<CardScreen> {
-  static final DeviceInfoPlugin deviceInfoPlugin = DeviceInfoPlugin();
-  Map<String, dynamic> _deviceData = <String, dynamic>{};
-
-  Future<Map<String, dynamic>> initPlatformState() async {
-    var deviceData = <String, dynamic>{};
-
-    try {
-      deviceData = readAndroidBuildData(await deviceInfoPlugin.androidInfo);
-      print('_CardAddScreenState.initPlatformState ${deviceData["id"]}');
-    } on PlatformException {
-      deviceData = <String, dynamic>{
-        'Error:': 'Failed to get platform version.'
-      };
-    }
-    setState(() {
-      _deviceData = deviceData;
-    });
-
-    return deviceData;
-  }
-
-  List proList = [];
-
   @override
   void initState() {
-    // TODO: implement initState
+    // initPlatformState().then((value) => _deviceData = value);
     super.initState();
-    initPlatformState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () async {
-          await FireStoreRepository.get(_deviceData["id"]).then((value) {
-            setState(() {
-              proList = value;
-            });
-          });
-        },
+    return CustomBloc<CardBloc>(
+      create: (context) => CardBloc()..add(LoadingEvent()),
+      listener: (BuildContext context, state) {},
+      builder: (blocContext, state) {
+        return state is CardLoaded
+            ? _body(blocContext, state.cards, state.id)
+            : const Loader();
+      },
+    );
+  }
+
+  _body(BuildContext blocContext, List<CardModel> cards, String id) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 10, right: 10),
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            const SizedBox(height: 40),
+            ...List.generate(
+                cards.length, (index) => _card(blocContext, cards[index], id)),
+            _inkWell(blocContext, id),
+            const SizedBox(height: 40),
+          ],
+        ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 10, right: 10, top: 40),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              for (int i = 0; i < proList.length; i++)
-                Column(
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        NavigationPages().pushNamed(RouteList.cardEdit,
-                            arguments: [
-                              proList[i]["cardId"],
-                              proList[i]["userId"],
-                              _deviceData["id"]
-                            ]);
-                      },
-                      child: Container(
-                          padding: const EdgeInsets.only(right: 30, left: 30),
-                          height: 200,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(16),
-                            gradient: linearGradient[proList[i]["gradient"]],
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 30),
-                              Row(
-                                children: [
-                                  Text(proList[i]["cardName"].toString()),
-                                  Spacer(),
-                                  Text(proList[i]["cardType"].toString()),
-                                ],
-                              ),
-                              const SizedBox(height: 50),
-                              Text(proList[i]['cardNumber'].toString(),
-                                  style: TextStyle(
-                                      fontSize: 16, color: Color(0xFF12121D))),
-                              const SizedBox(height: 10),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text("Karta egasi",
-                                          style: TextStyle(
-                                              color: Color.fromRGBO(
-                                                  18, 18, 29, 0.3))),
-                                      Text(proList[i]["cardOwner"].toString())
-                                    ],
-                                  ),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "Amal qilish muddati",
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                18, 18, 29, 0.3)),
-                                      ),
-                                      Text(proList[i]['cardExpired'].toString())
-                                    ],
-                                  )
-                                ],
-                              )
-                            ],
-                          )),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    )
-                  ],
-                ),
-              InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, RouteList.cardAdd);
-                },
-                child: Container(
-                    // margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
-                    padding: EdgeInsets.only(right: 30, left: 30),
-                    height: 200,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(16),
-                      color: Colors.teal,
-                    ),
-                    child: Center(
-                      child: Icon(Icons.add),
-                    )),
-              ),
-            ],
+    );
+  }
+
+  _inkWell(BuildContext blocContext, String id) {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        color: Colors.teal,
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          borderRadius: BorderRadius.circular(16),
+          onTap: () async {
+            await Navigator.pushNamed(context, RouteList.cardAdd, arguments: id)
+                .then((value) {
+              Provider.of<CardBloc>(blocContext, listen: false)
+                  .add(LoadingEvent());
+            });
+          },
+          child: Center(
+            child: Icon(
+              Icons.add,
+              size: 50,
+              color: kPrimaryWhiteColor,
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  _card(BuildContext blocContext, CardModel card, String id) {
+    return Column(
+      children: [
+        InkWell(
+          onTap: () async {
+            await Navigator.pushNamed(context, RouteList.cardEdit,
+                arguments: [card.cardId, card.userId, id]).then((value) {
+              Provider.of<CardBloc>(blocContext, listen: false)
+                  .add(LoadingEvent());
+            });
+          },
+          child: Container(
+              padding: const EdgeInsets.only(right: 30, left: 30),
+              height: 200,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: linearGradient[card.gradient ?? 0],
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 30),
+                  Row(
+                    children: [
+                      TextWidget(
+                          text: card.cardName ?? '',
+                          textColor: kPrimaryBlackColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14),
+                      const Spacer(),
+                      TextWidget(
+                          text: card.cardType ?? '',
+                          textColor: kPrimaryBlackColor,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14),
+                    ],
+                  ),
+                  const SizedBox(height: 50),
+                  TextWidget(
+                      text: card.cardNumber ?? '',
+                      textColor: kPrimaryBlackColor,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 18),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextWidget(
+                              text: "Karta egasi",
+                              textColor: kPrimaryBlack50Color,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                          TextWidget(
+                              text: card.cardOwner ?? '',
+                              textColor: kPrimaryBlackColor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                        ],
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          TextWidget(
+                              text: "Amal qilish muddati",
+                              textColor: kPrimaryBlack50Color,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                          TextWidget(
+                              text: card.cardExpired ?? '',
+                              textColor: kPrimaryBlackColor,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 14),
+                        ],
+                      )
+                    ],
+                  )
+                ],
+              )),
+        ),
+        const SizedBox(
+          height: 10,
+        )
+      ],
     );
   }
 }

@@ -3,6 +3,9 @@ part of 'card_bloc.dart';
 abstract class CardEvent {
   CardEvent();}
 
+class LoadingEvent extends CardEvent{
+}
+
 class AddCard extends CardEvent {
   final CardModel cardModel;
 
@@ -17,11 +20,6 @@ class UpdateTask extends CardEvent {
   UpdateTask({
     required this.cardModel,
   });
-
-  // firebaseFirestore.collection(GetStorage().read("email")).doc(cardModel.id).update(cardModel.toMap());
-
-  @override
-  List<Object> get props => [cardModel];
 }
 
 class RemoveTask extends CardEvent {
@@ -30,9 +28,6 @@ class RemoveTask extends CardEvent {
   RemoveTask({
     required this.cardModel,
   });
-
-  @override
-  List<Object> get props => [cardModel];
 }
 
 class DeleteTask extends CardEvent {
@@ -41,7 +36,4 @@ class DeleteTask extends CardEvent {
   DeleteTask({
     required this.cardModel,
   });
-
-  @override
-  List<Object> get props => [cardModel];
 }
