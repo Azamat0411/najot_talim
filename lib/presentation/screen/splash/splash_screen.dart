@@ -15,7 +15,9 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Scaffold(
+      body: FlutterLogo(),
+    );
   }
 
   @override
@@ -26,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   openNextPage(BuildContext context) async {
     Timer(const Duration(seconds: 2), () async {
-        NavigationPages().pushReplacementNamed(RouteList.home);
+      NavigationPages().pushReplacementNamed(RouteList.home);
     });
   }
 }
