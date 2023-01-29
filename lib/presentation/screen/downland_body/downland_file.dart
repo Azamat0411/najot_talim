@@ -1,5 +1,10 @@
-import 'package:dio/dio.dart';
-import 'package:flutter/cupertino.dart';
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
+
+import 'downland_class.dart';
 
 class DownlandFile extends StatefulWidget {
   const DownlandFile({Key? key}) : super(key: key);
@@ -14,23 +19,23 @@ class _DownlandFileState extends State<DownlandFile> {
     return ListView.builder(
       itemCount: filesData.length,
       itemBuilder: (BuildContext context, int index) {
-        return GestureDetector(
-          onTap: () async {
-            Dio dio = Dio();
-            try {
-              var dir = await getApplicationDocumentsDirectory();
-
-              await dio.download(filesData[index].fileUrl, "${dir.path}/${filesData[index].fileName}.pdf",
-                  onProgress: (rec, total) {
-                    print("Rec: $rec , Total: $total");
-                  });
-            } catch (e) {
-              print(e);
-            }
-          },
-          child: Text(filesData[index].fileName),
+        return ListTile(
+          leading: Icon(Icons.download),
+          trailing: Icon(Icons.file_copy),
+          title: Text(filesData[index].fileName),
+          subtitle: Text("hello"),
+          onTap: () => downloadFile(filesData[index].fileUrl),
         );
       },
     );
+  }
+  void downloadFile(String fileUrl) async {
+    // Directory tempDir = await getTemporaryDirectory();
+    // String path = tempDir.path;
+    var httpClient = HttpClient();
+    var request = await httpClient.getUrl(Uri.parse(fileUrl));
+    var response = await request.close();
+    var bytes = await consolidateHttpClientResponseBytes(response);
+    // write the bytes to a file
   }
 }

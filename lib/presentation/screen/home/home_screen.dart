@@ -5,6 +5,7 @@ import 'package:najot_talim/presentation/screen/home/bloc/bloc.dart';
 import 'package:najot_talim/presentation/screen/home/bloc/states.dart';
 import 'package:provider/provider.dart';
 
+import '../downland_body/downland_file.dart';
 import 'bloc/events.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -42,12 +43,7 @@ class HomeScreen extends StatelessWidget {
           width: 50,
           height: 50,
           color: Colors.green,
-        ),
-        Container(
-          width: 50,
-          height: 50,
-          color: Colors.red,
-        ),
+        ),DownlandFile(),
         Container(
           width: 50,
           height: 50,
