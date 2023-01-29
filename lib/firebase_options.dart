@@ -43,6 +43,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '295994309170',
     projectId: 'najottalim-25e1a',
     storageBucket: 'najottalim-25e1a.appspot.com',
+    androidClientId: '295994309170-0ss1jineu9cpj82n1q5jmjqlk07gq4ns.apps.googleusercontent.com'
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
