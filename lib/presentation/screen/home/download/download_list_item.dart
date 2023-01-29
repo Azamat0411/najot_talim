@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:najot_talim/core/component/flash/flash.dart';
+import 'package:najot_talim/core/component/flash/flash_widget.dart';
+import 'package:najot_talim/core/constant/app_colors.dart';
 
 import 'download_file.dart';
 
@@ -17,19 +20,23 @@ class DownloadListItem extends StatelessWidget with WidgetsBindingObserver {
   final Function(TaskInfo)? onActionTap;
   final Function(TaskInfo)? onCancel;
 
-  Widget? _buildTrailing(TaskInfo task) {
+  Widget _leading(TaskInfo task) {
+    Widget item = const SizedBox();
     if (task.status == DownloadTaskStatus.undefined) {
-      return IconButton(
+      item = IconButton(
+        splashRadius: 25,
+        padding: EdgeInsets.zero,
         onPressed: () => onActionTap?.call(task),
         constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
         icon: const Icon(Icons.file_download),
         tooltip: 'Start',
       );
     } else if (task.status == DownloadTaskStatus.running) {
-      return Row(
+      item = Row(
         children: [
-          Text('${task.progress}%'),
           IconButton(
+            splashRadius: 25,
+            padding: EdgeInsets.zero,
             onPressed: () => onActionTap?.call(task),
             constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
             icon: const Icon(Icons.pause, color: Colors.yellow),
@@ -38,119 +45,115 @@ class DownloadListItem extends StatelessWidget with WidgetsBindingObserver {
         ],
       );
     } else if (task.status == DownloadTaskStatus.paused) {
-      return Row(
+      item = Row(
         children: [
-          Text('${task.progress}%'),
           IconButton(
+            splashRadius: 25,
+            padding: EdgeInsets.zero,
             onPressed: () => onActionTap?.call(task),
             constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
             icon: const Icon(Icons.play_arrow, color: Colors.green),
             tooltip: 'Resume',
           ),
-          if (onCancel != null)
-            IconButton(
-              onPressed: () => onCancel?.call(task),
-              constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
-              icon: const Icon(Icons.cancel, color: Colors.red),
-              tooltip: 'Cancel',
-            ),
         ],
       );
-    } else if (task.status == DownloadTaskStatus.complete) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          const Text('Ready', style: TextStyle(color: Colors.green)),
-          IconButton(
-            onPressed: () => onActionTap?.call(task),
-            constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
-            icon: const Icon(Icons.delete),
-            tooltip: 'Delete',
-          )
-        ],
+    }
+    if (task.status == DownloadTaskStatus.complete) {
+      item = Icon(Icons.done_all, color: kPrimaryGreenColor);
+    }
+    return SizedBox(
+      width: 40,
+      height: 40,
+      child: item,
+    );
+  }
+
+  Widget _buildTrailing(TaskInfo task) {
+    Widget item = const SizedBox(width: 10);
+    if (task.status == DownloadTaskStatus.complete) {
+      item = SizedBox(
+        width: 40,
+        child: IconButton(
+          splashRadius: 25,
+          padding: EdgeInsets.zero,
+          onPressed: () => onActionTap?.call(task),
+          constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
+          icon: Icon(Icons.delete, color: kPrimaryRedColor.withOpacity(.8)),
+          tooltip: "Delete",
+        ),
       );
-    } else if (task.status == DownloadTaskStatus.canceled) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          const Text('Canceled', style: TextStyle(color: Colors.red)),
-          if (onActionTap != null)
-            IconButton(
-              onPressed: () => onActionTap?.call(task),
-              constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
-              icon: const Icon(Icons.cancel),
-              tooltip: 'Cancel',
-            )
-        ],
-      );
-    } else if (task.status == DownloadTaskStatus.failed) {
-      return Row(
-        mainAxisSize: MainAxisSize.min,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          const Text('Failed', style: TextStyle(color: Colors.red)),
-          IconButton(
-            onPressed: () => onActionTap?.call(task),
-            constraints: const BoxConstraints(minHeight: 32, minWidth: 32),
-            icon: const Icon(Icons.refresh, color: Colors.green),
-            tooltip: 'Refresh',
-          )
-        ],
-      );
-    } else if (task.status == DownloadTaskStatus.enqueued) {
-      return const Text('Pending', style: TextStyle(color: Colors.orange));
+    }
+    return item;
+  }
+
+  _onTap(TaskInfo task) {
+    if (task.status == DownloadTaskStatus.complete) {
+      onTap!(task);
+    } else if (task.status == DownloadTaskStatus.undefined) {
+      onActionTap?.call(task);
     } else {
-      return null;
+      String message = "Noma'lum xato";
+      if (task.status == DownloadTaskStatus.running) {
+        message = 'Yuklab olinmoqda';
+      } else if (task.status == DownloadTaskStatus.failed) {
+        message = 'Yuklab olishda xatolik';
+      } else if (task.status == DownloadTaskStatus.paused) {
+        message = "Yuklash pause qilingan";
+      }
+      flash(message, kPrimaryGrey100Color, position: FlashPosition.bottom);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: data!.task!.status == DownloadTaskStatus.complete
-          ? () {
-              onTap!(data!.task);
-            }
-          : null,
+      onTap: () {
+        _onTap(data!.task!);
+      },
       child: Container(
         padding: const EdgeInsets.only(left: 16, right: 8),
-        child: InkWell(
-          child: Stack(
-            children: [
-              SizedBox(
-                width: double.infinity,
-                height: 64,
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Text(
-                        data!.name!,
-                        maxLines: 1,
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+        child: Row(
+          children: [
+            _leading(data!.task!),
+            Expanded(
+              child: Stack(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: 64,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            data!.name!,
+                            maxLines: 1,
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        if (data!.task!.status == DownloadTaskStatus.running ||
+                            data!.task!.status == DownloadTaskStatus.paused)
+                          Text('${data!.task!.progress}%'),
+                      ],
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: _buildTrailing(data!.task!),
-                    ),
-                  ],
-                ),
-              ),
-              if (data!.task!.status == DownloadTaskStatus.running ||
-                  data!.task!.status == DownloadTaskStatus.paused)
-                Positioned(
-                  left: 0,
-                  right: 50,
-                  bottom: 0,
-                  child: LinearProgressIndicator(
-                    value: data!.task!.progress! / 100,
                   ),
-                )
-            ],
-          ),
+                  if (data!.task!.status == DownloadTaskStatus.running ||
+                      data!.task!.status == DownloadTaskStatus.paused)
+                    Positioned(
+                      left: 0,
+                      right: data!.task!.status == DownloadTaskStatus.complete
+                          ? 50
+                          : 0,
+                      bottom: 10,
+                      child: LinearProgressIndicator(
+                        value: data!.task!.progress! / 100,
+                      ),
+                    )
+                ],
+              ),
+            ),
+            _buildTrailing(data!.task!)
+          ],
         ),
       ),
     );

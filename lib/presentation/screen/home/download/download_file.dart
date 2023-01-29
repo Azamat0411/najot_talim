@@ -5,8 +5,11 @@ import 'dart:ui';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:najot_talim/presentation/screen/home/bloc/states.dart';
+import 'package:najot_talim/presentation/screen/home/download/bloc/bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 
 import 'data.dart';
 import 'download_list_item.dart';
@@ -34,8 +37,11 @@ class _DownloadFileState extends State<DownloadFile> {
     });
   }
 
+  late DownloadBloc _bloc;
+
   @override
   void initState() {
+
     _getPath();
 
     _bindBackgroundIsolate();
@@ -48,6 +54,12 @@ class _DownloadFileState extends State<DownloadFile> {
 
     _prepare();
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    _bloc = Provider.of<DownloadBloc>(context, listen: false);
+    super.didChangeDependencies();
   }
 
   void _bindBackgroundIsolate() {
@@ -188,10 +200,6 @@ class _DownloadFileState extends State<DownloadFile> {
 
   Future<void> _retryRequestPermission() async {
     final hasGranted = await _checkPermission();
-
-    if (hasGranted) {
-      // await _prepareSaveDir();
-    }
 
     setState(() {
       _permissionReady = hasGranted;
@@ -339,6 +347,11 @@ class _DownloadFileState extends State<DownloadFile> {
 
   @override
   Widget build(BuildContext context) {
+    print(_bloc.state is StateLoadPage);
+    if(_bloc.state.runtimeType == StateLoadPage){
+
+    print(_bloc.state.runtimeType);
+    }
     return Builder(builder: (context){
       if (!_showContent) {
         return const Center(child: CircularProgressIndicator());

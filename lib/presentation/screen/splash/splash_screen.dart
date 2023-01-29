@@ -27,7 +27,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   openNextPage(BuildContext context) async {
-    Timer(const Duration(seconds: 2), () async {
+    Timer(const Duration(seconds: 3), () async {
       NavigationPages().pushReplacementNamed(RouteList.home);
     });
   }
