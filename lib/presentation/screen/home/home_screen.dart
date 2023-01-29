@@ -31,6 +31,7 @@ class HomeScreen extends StatelessWidget {
 
   _appBar(StateLoadPage state) {
     return AppBar(
+      automaticallyImplyLeading: false,
       title: TextWidget(
           text: _title[state.currentPage],
           textColor: kPrimaryWhiteColor,
