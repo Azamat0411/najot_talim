@@ -8,7 +8,7 @@ import 'package:najot_talim/presentation/screen/home/country/country_page.dart';
 import 'package:najot_talim/presentation/screen/home/download/download_file.dart';
 import 'package:provider/provider.dart';
 
-import '../card/card_screen.dart';
+import 'card/card_screen.dart';
 import 'bloc/events.dart';
 
 class HomeScreen extends StatelessWidget {

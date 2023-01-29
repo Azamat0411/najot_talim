@@ -1,10 +1,11 @@
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:najot_talim/presentation/route/route.dart';
 import 'package:najot_talim/presentation/route/routes_const.dart';
-import 'package:najot_talim/presentation/screen/card/widget.dart';
+import 'package:najot_talim/presentation/screen/home/card/widget.dart';
 
-import '../../../firebase_repostory.dart';
+import '../../../../domain/firebase_repostory.dart';
 
 class CardScreen extends StatefulWidget {
   const CardScreen({Key? key}) : super(key: key);
@@ -24,7 +25,9 @@ class _CardScreenState extends State<CardScreen> {
       deviceData = readAndroidBuildData(await deviceInfoPlugin.androidInfo);
       print('_CardAddScreenState.initPlatformState ${deviceData["id"]}');
     } on PlatformException {
-      deviceData = <String, dynamic>{'Error:': 'Failed to get platform version.'};
+      deviceData = <String, dynamic>{
+        'Error:': 'Failed to get platform version.'
+      };
     }
     setState(() {
       _deviceData = deviceData;
@@ -64,12 +67,15 @@ class _CardScreenState extends State<CardScreen> {
                   children: [
                     InkWell(
                       onTap: () {
-                        // print('_CardScreenState.build ${proList[i]["cardId"]}');
-                        Navigator.pushNamed(context, RouteList.cardEdit,arguments: [proList[i]["cardId"],proList[i]["userId"],_deviceData["id"]]);
+                        NavigationPages().pushNamed(RouteList.cardEdit,
+                            arguments: [
+                              proList[i]["cardId"],
+                              proList[i]["userId"],
+                              _deviceData["id"]
+                            ]);
                       },
                       child: Container(
-                          // margin: const EdgeInsets.only(right: 20, left: 20, bottom: 20),
-                          padding: EdgeInsets.only(right: 30, left: 30),
+                          padding: const EdgeInsets.only(right: 30, left: 30),
                           height: 200,
                           width: double.infinity,
                           decoration: BoxDecoration(
@@ -88,21 +94,34 @@ class _CardScreenState extends State<CardScreen> {
                                 ],
                               ),
                               const SizedBox(height: 50),
-                              Text(proList[i]['cardNumber'].toString(), style: TextStyle(fontSize: 16, color: Color(0xFF12121D))),
+                              Text(proList[i]['cardNumber'].toString(),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Color(0xFF12121D))),
                               const SizedBox(height: 10),
                               Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: [
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [Text("Karta egasi", style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3))), Text(proList[i]["cardOwner"].toString())],
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("Karta egasi",
+                                          style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  18, 18, 29, 0.3))),
+                                      Text(proList[i]["cardOwner"].toString())
+                                    ],
                                   ),
                                   Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         "Amal qilish muddati",
-                                        style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3)),
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                18, 18, 29, 0.3)),
                                       ),
                                       Text(proList[i]['cardExpired'].toString())
                                     ],

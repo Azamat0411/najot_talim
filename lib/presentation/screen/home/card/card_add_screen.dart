@@ -1,10 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:najot_talim/presentation/screen/card/widget.dart';
+import 'package:najot_talim/presentation/screen/home/card/widget.dart';
 
 import 'guid_gen.dart';
 
@@ -39,7 +38,9 @@ class _CardAddScreenState extends State<CardAddScreen> {
       deviceData = readAndroidBuildData(await deviceInfoPlugin.androidInfo);
       print('_CardAddScreenState.initPlatformState ${deviceData["id"]}');
     } on PlatformException {
-      deviceData = <String, dynamic>{'Error:': 'Failed to get platform version.'};
+      deviceData = <String, dynamic>{
+        'Error:': 'Failed to get platform version.'
+      };
     }
     setState(() {
       _deviceData = deviceData;
@@ -67,7 +68,7 @@ class _CardAddScreenState extends State<CardAddScreen> {
           children: [
             Container(
                 margin: const EdgeInsets.only(right: 20, left: 20),
-                padding: EdgeInsets.only(right: 30, left: 30),
+                padding: const EdgeInsets.only(right: 30, left: 30),
                 height: 200,
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -86,21 +87,29 @@ class _CardAddScreenState extends State<CardAddScreen> {
                       ],
                     ),
                     const SizedBox(height: 50),
-                    Text(cardNumber.text, style: TextStyle(fontSize: 16, color: Color(0xFF12121D))),
+                    Text(cardNumber.text,
+                        style:
+                            TextStyle(fontSize: 16, color: Color(0xFF12121D))),
                     const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [Text("Karta egasi", style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3))), Text(cardOwner.text)],
+                          children: [
+                            Text("Karta egasi",
+                                style: TextStyle(
+                                    color: Color.fromRGBO(18, 18, 29, 0.3))),
+                            Text(cardOwner.text)
+                          ],
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Amal qilish muddati",
-                              style: TextStyle(color: Color.fromRGBO(18, 18, 29, 0.3)),
+                              style: TextStyle(
+                                  color: Color.fromRGBO(18, 18, 29, 0.3)),
                             ),
                             Text(cardExpired.text)
                           ],
@@ -127,7 +136,7 @@ class _CardAddScreenState extends State<CardAddScreen> {
             Text("Karta raqam"),
             SizedBox(height: 10),
             customCardTextField(
-              enable: true,
+                enable: true,
                 maskFormatter: maskFormatter,
                 controller: cardNumber,
                 keyboardType: TextInputType.number,
@@ -144,8 +153,11 @@ class _CardAddScreenState extends State<CardAddScreen> {
                 maskFormatter: maskFormatterExpired,
                 onChanged: (value) {
                   setState(() {});
-                  if (value != "" && int.parse(value.toString().substring(0, 1)) < 2 && int.parse(value.toString().substring(0, 1)) >= 0) {
-                    print('_CardAddScreenState.build aasa ${value.toString().substring(0, 1)}');
+                  if (value != "" &&
+                      int.parse(value.toString().substring(0, 1)) < 2 &&
+                      int.parse(value.toString().substring(0, 1)) >= 0) {
+                    print(
+                        '_CardAddScreenState.build aasa ${value.toString().substring(0, 1)}');
                   }
                   // print('_CardAddScreenState.build  aa${value.toString().substring(0,2)}');
                   // print('_CardAddScreenState.build month ${DateTime.now().month.toString()}');
@@ -177,11 +189,15 @@ class _CardAddScreenState extends State<CardAddScreen> {
                 }),
             SizedBox(height: 100),
             TextButton(
-                style: TextButton.styleFrom(maximumSize: Size(double.infinity, 40), minimumSize: Size(double.infinity, 40), backgroundColor: Colors.black),
+                style: TextButton.styleFrom(
+                    maximumSize: Size(double.infinity, 40),
+                    minimumSize: Size(double.infinity, 40),
+                    backgroundColor: Colors.black),
                 onPressed: () async {
                   var cardId = GUIDGen.generate();
                   var token = GUIDGen.generate();
-                  final _fireStore = FirebaseFirestore.instance.collection(_deviceData["id"]);
+                  final _fireStore =
+                      FirebaseFirestore.instance.collection(_deviceData["id"]);
                   await _fireStore.doc(cardId).set({
                     "cardId": cardId,
                     "gradient": 1,
@@ -192,11 +208,8 @@ class _CardAddScreenState extends State<CardAddScreen> {
                     "cardType": cardType.text,
                     "userId": token,
                   }).then((value) {
-
                     Navigator.pop(context);
-                    setState(() {
-
-                    });
+                    setState(() {});
                   });
                 },
                 child: Text("Saqlash"))
@@ -206,5 +219,3 @@ class _CardAddScreenState extends State<CardAddScreen> {
     ));
   }
 }
-
-

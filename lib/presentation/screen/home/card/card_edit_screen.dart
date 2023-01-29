@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:najot_talim/presentation/screen/card/widget.dart';
+import 'package:najot_talim/presentation/screen/home/card/widget.dart';
 
-import '../../../firebase_repostory.dart';
+import '../../../../domain/firebase_repostory.dart';
 import 'guid_gen.dart';
 
 class CardEditScreen extends StatefulWidget {

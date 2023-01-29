@@ -10,9 +10,8 @@ import 'package:najot_talim/presentation/screen/internetHelper/connectivity_prov
 import 'package:provider/provider.dart';
 
 import 'core/constant/app_colors.dart';
-import 'hive_init.dart';
-
 import 'firebase_options.dart';
+import 'hive_init.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,7 +40,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: NavigationService.navigatorKey,
       initialRoute: RouteList.splash,
@@ -52,7 +51,12 @@ class MyApp extends StatelessWidget {
       },
       theme: ThemeData(
         primarySwatch: blue,
-      ),
+        scaffoldBackgroundColor: kPrimaryGreyColor,
+      ).copyWith(
+          pageTransitionsTheme: const PageTransitionsTheme(builders: {
+        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
+        TargetPlatform.iOS: CupertinoPageTransitionsBuilder()
+      })),
     );
   }
 }
